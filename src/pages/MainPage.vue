@@ -5,40 +5,47 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2" v-for="article in articles" :key="article.id">
-                <a href="#" class="card text-decoration-none">
-                    <img :src="article.img" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ article.title }}</h5>
-                    </div>
-                </a>
+                <ArticleCard :article="article"/>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
+import ArticleCard from '@/components/ArticleCard.vue';
+
 export default {
- data() {
-    return {
-        articles: [
-            {
-                id: 1,
-                title: 'Новость дня',
-                img: 'https://www.sostav.ru/images/news/2019/04/01/9iithyjt_md.jpg'
-            },
-            {
-                id: 2,
-                title: 'Новость ',
-                img: 'https://www.sostav.ru/images/news/2019/04/01/9iithyjt_md.jpg'
-            }
-        ]
+    components: {
+        ArticleCard
+    },
+    data() {
+        return {
+            articles: [
+                
+            ]
+        }
+    },
+    methods: {
+        async LoadArticles() {
+            const response = await axios.get("http://portal.be/api/articles");
+            this.articles = response.data;
+        }
+    },
+    mounted() {
+        this.LoadArticles();
     }
- }
 }
 </script>
 
 <style>
-.card img {
-    height: 200px;
+body {
+    background-color: rgb(240, 240, 240);
 }
+
+h1 {
+    color: rgb(75, 75, 75);
+    text-align: center;
+}
+
 </style>
